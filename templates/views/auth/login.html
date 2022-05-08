@@ -1,0 +1,59 @@
+{% extends 'base.html'%}
+{% block librerias %}
+<title>Login</title>
+{% endblock %}
+
+{% block title %}
+<title>Login</title>
+{% endblock %}
+{% block contenido %}
+{% block header %}
+
+{% endblock %}
+<div class="container my-5 py-5 col-10 col-sm-10 col-md-8 col-lg-5 col-xl-3">
+    <div class="card">
+        <div class="card-header bg-dark text-white text-center">
+            <p><i class='fa fa-user'></i> Iniciar Sesión</p>
+        </div>
+        <div class="center mt-4">
+            <img src="{{url_for('static',filename='images/profile.png')}}" width="30%" alt="">
+        </div>
+        <div class="card-body" style="padding-top: 20px; ">
+
+            <form class="form form-center" method="post" action="{{url_for('login')}}" id="formLogin">
+                <input class="form-control" value="{{username}}" type="text" name="username" tabindex="1"
+                    placeholder="Correo electrónico"><br>
+                <input class="form-control" type="password" name="password"
+                    tabindex="2" placeholder="Contraseña" size="30">
+                <p class="card-text mt-3 text-center">
+                    <button type="submit" class="btn btn-outline-danger" tabindex="3"
+                        style="width: 100%;">Ingresar</button>
+                </p>
+            </form>
+            <p class="card-text mt-3 text-center">
+                {% with messages = get_flashed_messages(category_filter=["wrong"]) %}
+                {% if messages %}
+                <ul class="alert alert-danger">
+                    <small>Campos requeridos *</small>
+                    {% for message in messages %}
+                    <li style="padding-left: 10px; list-style: none;"><small>{{message}}</small></li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                {% endwith %}
+                {% with messages = get_flashed_messages(category_filter=["good"]) %}
+                {% if messages %}
+                <ul class="alert alert-success text-center">
+                    {% for message in messages %}
+                    <li style="padding-left: 10px; list-style: none;"><small>{{message}}</small></li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                {% endwith %}
+            </p>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
