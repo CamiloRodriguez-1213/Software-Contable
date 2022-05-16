@@ -1,0 +1,44 @@
+{% extends 'base.html'%}
+{% block title %}
+<title>Inventory</title>
+{% endblock %}
+
+{% block contenido %}
+<div class="container mt-4" >
+    <div class="row">
+        <div class="col-12 text-center mb-1">
+            <div class="h4">
+                INVENTARIO
+                <div>
+                    <a href="{{ url_for('CretePorduct') }}">Actualizar inventario</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 mb-3">
+            <table class="table">
+                <thead class="table-dark">
+                    <tr class="text-center">
+                        <th scope="col">Codigo</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Categoria</th>
+                        <th scope="col">Precio venta</th>
+                        <th scope="col">Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for producto in productos %}
+                        <tr class="text-center">
+                            <th scope="row">{{ producto[0] }}</th>
+                            <td>{{ producto[1] }}</td>
+                            <td>{{ producto[2] }}</td>
+                            <td>{{ producto[3] }}</td>
+                            <td><a class="px-1" href="">Eliminar</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

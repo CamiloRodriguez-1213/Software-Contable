@@ -15,7 +15,7 @@ def login(username,password):
                     session['user'] = (result[1]+' '+result[2])
                     session['username'] = result[7]
                     session['rol'] = result[9]
-                    flash('Inicio de sesión exitoso', 'good')
+                    
                     return True
             else:
                 return False, flash('El usuario '+username+' no está registrado', 'wrong')
