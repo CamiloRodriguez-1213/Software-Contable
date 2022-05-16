@@ -7,7 +7,12 @@
 <div class="container mt-4" >
     <div class="row">
         <div class="col-12 text-center mb-1">
-            <div class="h4">INVENTARIO</div>
+            <div class="h4">
+                INVENTARIO
+                <div>
+                    <a href="{{ url_for('CretePorduct') }}">Actualizar inventario</a>
+                </div>
+            </div>
         </div>
         <div class="col-12 mb-3">
             <table class="table">
@@ -16,18 +21,20 @@
                         <th scope="col">Codigo</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Categoria</th>
-                        <th scope="col">Precio</th>
+                        <th scope="col">Precio venta</th>
                         <th scope="col">Opciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="text-center">
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        <td><a class="px-1" href="">D</a><a class="px-1" href="">E</a></td>
-                    </tr>
+                    {% for producto in productos %}
+                        <tr class="text-center">
+                            <th scope="row">{{ producto[0] }}</th>
+                            <td>{{ producto[1] }}</td>
+                            <td>{{ producto[2] }}</td>
+                            <td>{{ producto[3] }}</td>
+                            <td><a class="px-1" href="">D</a></td>
+                        </tr>
+                    {% endfor %}
                 </tbody>
               </table>
         </div>

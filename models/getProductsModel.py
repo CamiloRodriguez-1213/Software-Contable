@@ -15,11 +15,9 @@ def GetProductWithCodigo(codigo):
         
 def GetInventario():
     try:
-        print("TRAER INVENTARIO")
-        #SELECT producto.id_producto, producto.codigo_producto, producto.nombre, producto.precio_venta, categoria.nombre, factura_compra.val_unitario  FROM producto, categoria, factura_compra WHERE (producto.id_categoria = categoria.id_categoria AND producto.precio_compra = factura_compra.id_factura_compra)
-        #cursor.execute("SELECT * FROM categorias ")
-        #myresult = cursor.fetchone()
-        #return myresult
+        cursor.execute("SELECT productos.codigo_producto, productos.nombre, categorias.nombre, productos.precio_venta FROM productos, categorias WHERE (productos.id_categoria = categorias.id_categoria) ")
+        myresult = cursor.fetchall()
+        return myresult
     except:
         print("Error occured in getCategorias")
     
