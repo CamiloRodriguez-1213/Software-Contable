@@ -2,7 +2,7 @@
 $(document).ready(function(){
     function ajax_product(){
         codigo = document.getElementById('codigo').value
-
+        
         id = document.getElementById('id')
         cod_product = document.getElementById('cod_product')
         nombre = document.getElementById('nombre')
@@ -20,18 +20,21 @@ $(document).ready(function(){
                     id.value = response[0]
                     cod_product.value = response[1]
                     nombre.value = response[2]
-                    console.log(document.cookie)
-                    input.innerHTML = '<select id="categoria" name="categoria" class="form-select">'+
-                                            '<option >Seleccione una categoria</option>'+
-                                            '{% for db_categoria in db_categorias %}'+
-                                                '{% if db_categoria[0] == categoria %}'+
-                                                    '<option value="{{ db_categoria[0] }}" selected>{{ db_categoria[1] }}</option>'+
-                                                '{% else %}'+
-                                                    '<option value="{{ db_categoria[0] }}" >{{ db_categoria[1] }}</option>'+
-                                                '{% endif %}'+
-                                            '{% endfor %}'+
-                                        '</select>'
-                    //input.innerHTML = "<input type='text' class='form-control' id='categoria' name'categoria' value="+response[7]+" disabled>";
+                    $.ajax({
+                        url: '/categorias',
+                        type: 'GET',
+                        success: function(db_categorias){
+                            input.innerHTML = '<select id="categoria" name="categoria" class="form-select"><option>Seleccione una categoria</option></select>'
+                            $.each(db_categorias,function(key, registro) {
+                                if(registro[0] == response[7])
+                                {
+                                    $("#categoria").append('<option value='+registro[0]+' selected>'+registro[1]+'</option>');
+                                }else{
+                                    $("#categoria").append('<option value='+registro[0]+'>'+registro[1]+'</option>');
+                                }
+                            });   
+                        },error: function(error){console.log(error);}
+                    })
                     precio_venta.value = response[3]
                     existencia.value = response[5]
                 }else{
@@ -40,6 +43,17 @@ $(document).ready(function(){
                     nombre.value = ''
                     precio_venta.value = ''
                     existencia.value = ''
+                    $.ajax({
+                        url: '/categorias',
+                        type: 'GET',
+                        success: function(db_categorias){
+                            input.innerHTML = '<select id="categoria" name="categoria" class="form-select"><option>Seleccione una categoria</option></select>'
+                            $.each(db_categorias,function(key, registro) {
+                                $("#categoria").append('<option value='+registro[0]+'>'+registro[1]+'</option>');
+                            });      
+                        },error: function(error){console.log(error);}
+                    }), 
+
                     document.getElementById('mensaje_modal').innerHTML = 'El producto de codigo "'+codigo+'" no existe, verifique que el codigo sea correcto o ingrese los datos del producto para crearlo'
                     myModal.addEventListener('show.bs.modal', () => {
                         myInput.focus()

@@ -45,12 +45,12 @@ def ValidationsCreate(id, codigo, nombre, categoria, precio_venta, existencia, p
                         flash('El proveedor no se encuentra registrado','wrong')
                         return False
                     else:
-                        if cantidad_compra < 0:
-                            flash('En la cantidad compra no se permiten numeros negativos','wrong')
+                        if cantidad_compra < 1:
+                            flash('En la cantidad compra no debe ser inferior a 1','wrong')
                             return False
                         else:
-                            if valor_unitario < 0:
-                                flash('En el valor unitario no se permiten numeros negativos','wrong')
+                            if valor_unitario < 1:
+                                flash('En el valor unitario no debe ser inferior a 1','wrong')
                                 return False
                             else:
                                 if cantidad_compra < 1:
@@ -58,7 +58,7 @@ def ValidationsCreate(id, codigo, nombre, categoria, precio_venta, existencia, p
                                     return False
                                 else:
                                     if descuento < 0:
-                                        flash('En el descuento no se permiten numeros negativos','wrong')
+                                        flash('En el descuento no debe ser inferior a 0','wrong')
                                         return False
                                     else:
                                         if impuesto < 0:

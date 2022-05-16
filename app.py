@@ -58,23 +58,31 @@ def CretePorduct():
             descuento = ValidationsController.number(request.form['descuento'])
             impuesto = ValidationsController.number(request.form['impuesto'])
             nombre = request.form['nombre']
-            categoria = 1
+            categoria = 0
             if id == '':
                 categoria = ValidationsController.number(request.form['categoria'])
             if not CreateProductController.ValidationsCreate(id, codigo, nombre, categoria, precio_venta, existencia, proveedor, cantidad_compra, valor_unitario, descuento, impuesto):
                 return render_template("views/inventory/products/create.html", db_categorias = db_categorias, db_proveedores = db_proveedores, id = id, cod_product = codigo, nombre = nombre, categoria=categoria, precio_venta = precio_venta, existencia = existencia, proveedor = proveedor, cantidad_compra = cantidad_compra, valor_unitario = valor_unitario, descuento = descuento, impuesto = impuesto)    
-            return render_template("views/inventory/products/create.html", db_categorias = db_categorias, db_proveedores = db_proveedores, id='')
+            return redirect(url_for('CretePorduct'))
         return render_template("views/inventory/products/create.html", db_categorias = db_categorias, db_proveedores = db_proveedores, id='')
     else:
         return render_template("views/auth/login.html")
     
 @app.route("/producto-codigo", methods=["POST"])
 def CodPorduct():
+    session.pop('_flashes', None)
     if verifyLogin():
         codigo = ValidationsController.number(request.form['codigo'])
         producto = GetProductosController.ControllerGetProductsWithCodigo(codigo)
-        db_categorias = GetCategoriasController.ControllerGetCategorias()
         return jsonify(producto)
+    else:
+        return render_template("views/auth/login.html")
+    
+@app.route("/categorias", methods=["GET"])
+def Cat():
+    if verifyLogin():
+        db_categorias = GetCategoriasController.ControllerGetCategorias()
+        return jsonify(db_categorias)
     else:
         return render_template("views/auth/login.html")
         
