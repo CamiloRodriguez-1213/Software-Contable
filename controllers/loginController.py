@@ -12,7 +12,7 @@ def login(username,password):
                 if result[7] == username and result[8]== password:
                     print(result)
                     session['token'] = result[0]
-                    session['user'] = (result[1]+''+result[2])
+                    session['user'] = (result[1]+' '+result[2])
                     session['username'] = result[7]
                     session['rol'] = result[9]
                     flash('Inicio de sesión exitoso', 'good')

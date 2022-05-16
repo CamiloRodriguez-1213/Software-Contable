@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block contenido %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col col-2 p-2">
+            <div class="row">
+                <div class="col">
+                    <div class="input-group p-1">
+                      <div class="input-group-text" style="width: 55%;">ID venta</div>
+                      <input type="text" class="form-control" disabled>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col col-2 p-2">
+            <div class="row">
+                <div class="col">
+                    <div class="input-group p-1">
+                        <div class="input-group-text" style="width: 55%;">Fecha Registro</div>
+                        <input type="text" class="form-control" disabled>
+                      </div>
+                </div>
+            </div>
+        </div>
+        <div class="col col-2 p-2">
+            <div class="row">
+                <div class="col">
+                    <div class="input-group p-1">
+                        <div class="input-group-text" style="width: 30%;">Asesor</div>
+                        <input type="disabled" class="form-control" value="{{session['user']}}" disabled>
+                      </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div >
+            <table id='empTable' class='table display dataTable' width='100%'>
+                <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Código</th>
+                    <th>Nombre</th>
+                    <th>Cantidad</th>
+                    <th>P Unitario</th>
+                    <th>Desctuento</th>
+                    <th>Subtotal</th>
+                    <th>Existencia</th>
+                </tr>
+                </thead>
+                
+            </table>
+            
+    <div class="mt-2" style="display: flex; justify-content: center;">
+        <a class="btn btn-success" href="/crear">Nuevo Registro</a>
+    </div>
+        </div>
+   </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+    $(document).ready(function() {
+    var datosTabla = $('#empTable')
+        
+    datosTabla.DataTable({
+            'processing': true,
+            'serverSide': true,
+            'serverMethod': 'post',
+            'ajax': {
+                'url':'/products'
+            },
+            'lengthMenu': [[5, 10, 25, 50, 100], [5, 10, 25, 50, 100]],
+            searching: true,
+            sort: true,
+            "serverSide": true,
+            'columns': [
+                { data: 'id_producto' },
+                { data: 'codigo_producto' },
+                { data: 'nombre' },
+                { data: 'precio_venta' },
+                { data: 'id_categoria' },
+                { data: 'precio_compra' }
+            ]
+            
+        });
+    });
+    
+</script>
+{% endblock %}
+
