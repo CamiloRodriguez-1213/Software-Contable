@@ -1,0 +1,150 @@
+{% extends 'base.html'%}
+{% block title %}
+<title>Nuevo producto</title>
+{% endblock %}
+
+{% block contenido %}
+<div class="container mt-4 col-12 col-sm-9 col-md-6 col-lg-4" >
+    <div class="row">
+        <div class="col-12 text-center mb-1">
+            <div class="h4">ACTUALIZAR INVENTARIO</div>
+        </div>
+        <div class="col-12 mb-3">
+            <form method="POST" id="get_product">
+                <div class="row mb-2">
+                    <div class="col-10">
+                        <input type="number" placeholder="Codigo de producto" class="form-control" id="codigo" name="codigo">
+                    </div>
+                    <div class="col-2">
+                        <!-- data-bs-toggle="modal" data-bs-target="#staticBackdrop" -->
+                        <button type="submit" id="buscar_codigo" >
+                            buscar
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <form action="{{ url_for('CretePorduct') }}" method="POST" class="row g-3">
+
+                <input type="hidden" name="id" id="id" value="{{ id }}">
+                
+                <div class="col-12">
+                    <label for="cod_product" class="form-label">Codigo producto</label>
+                    <input type="number" class="form-control" id="cod_product" name="cod_product" value="{{ cod_product }}">
+                </div>
+
+                <div class="col-md-6">
+                    <label for="nombre" class="form-label">Producto</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" value="{{ nombre }}">
+                </div>
+
+                <div class="col-md-6">
+                    <label for="categoria" class="form-label">Categoria</label>
+                    <div id="input_categoria">
+                        <select id="categoria" name="categoria" class="form-select">
+                            <option >Seleccione una categoria</option>
+                            {% for db_categoria in db_categorias %}
+                                {% if db_categoria[0] == categoria %}
+                                    <option value="{{ db_categoria[0] }}" selected>{{ db_categoria[1] }}</option>
+                                {% else %}
+                                    <option value="{{ db_categoria[0] }}" >{{ db_categoria[1] }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="precio_venta" class="form-label">Precio venta:</label>
+                    <input type="number" class="form-control" id="precio_venta"  name="precio_venta" value="{{ precio_venta }}">
+                </div>
+
+                <div class="col-md-6">
+                    <label for="existencia" class="form-label">Existencia:</label>
+                    <input type="number" class="form-control" id="existencia" name="existencia"  value="{{ existencia }}">
+                </div>
+
+                <div class="col-12">
+                    <label for="proveedor" class="form-label">Proveedor: </label>
+                    <select id="proveedor" name="proveedor" class="form-select">
+                        <option value="0">Seleccione un proveedor</option>
+                        {% for db_proveedor in db_proveedores %}
+                            {% if db_proveedor[0] == proveedor %}
+                                <option value="{{ db_proveedor[0] }}" selected>{{ db_proveedor[1] }}</option>
+                            {% else %}
+                                <option value="{{ db_proveedor[0] }}" >{{ db_proveedor[1] }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="cantidad_compra" class="form-label">Cantidad:</label>
+                    <input type="number" class="form-control" id="cantidad_compra" name="cantidad_compra"  value="{{ cantidad_compra }}">
+                </div>
+
+                <div class="col-md-6">
+                    <label for="valor_unitario" class="form-label">Valor unitario:</label>
+                    <input type="number" class="form-control" id="valor_unitario" name="valor_unitario"  value="{{ valor_unitario }}">
+                </div>
+
+                <div class="col-md-6">
+                    <label for="descuento" class="form-label">Descuento:</label>
+                    <input type="number" class="form-control" id="descuento" name="descuento"  value="{{ descuento }}">
+                </div>
+
+                <div class="col-md-6">
+                    <label for="impuesto" class="form-label">Impuesto:</label>
+                    <input type="number" class="form-control" id="impuesto" name="impuesto" value="{{ impuesto }}">
+                </div>
+
+                <button>GUARDAR</button>
+            </form>
+
+            <p class="card-text mt-3 text-center">
+                {% with messages = get_flashed_messages(category_filter=["wrong"]) %}
+                {% if messages %}
+                <ul class="alert alert-danger">
+                    <small>Campos requeridos *</small>
+                    {% for message in messages %}
+                    <li style="padding-left: 10px; list-style: none;"><small>{{message}}</small></li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                {% endwith %}
+                {% with messages = get_flashed_messages(category_filter=["good"]) %}
+                {% if messages %}
+                <ul class="alert alert-success text-center">
+                    {% for message in messages %}
+                    <li style="padding-left: 10px; list-style: none;"><small>{{message}}</small></li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                {% endwith %}
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="mensaje_modal"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='js/AjaxProductosConCodigo.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/SoloNumeros.js') }}" defer></script>
+{% endblock %}
