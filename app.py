@@ -5,9 +5,7 @@ from flask import Flask, redirect,render_template,url_for,request,session,jsonif
 from controllers.verifyLoginController import verifyLogin
 from controllers.validations import ValidationsController
 from controllers import loginController
-from controllers.consult import GetCategoriasController
-from controllers.consult import GetProveedoresController
-from controllers.consult import GetProductosController
+from controllers.consult import GetCategoriasController, GetProveedoresController, GetProductosController
 from controllers import CreateProductController
 
 app = Flask(__name__)
