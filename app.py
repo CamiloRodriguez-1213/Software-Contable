@@ -15,7 +15,7 @@ app.secret_key = 'fjifjidfjied5df45df485h48@'
 @app.get("/")
 def index():
     if verifyLogin():
-        try:        
+        try:
             datos = []
             datos = json.loads(request.cookies.get('carrito'))
             return render_template("index.html",datos=datos)
@@ -28,7 +28,6 @@ def postIndex():
     if verifyLogin():
         if request.method == 'POST':
             query = request.form['search']
-            
             datos = []
             response = stockProductsController.stockProducts(query)
             resp = make_response(redirect(url_for('index')))
@@ -115,7 +114,6 @@ def CodPorduct():
         return jsonify(producto)
     else:
         return render_template("views/auth/login.html")
-    
 @app.route("/categorias", methods=["GET"])
 def Cat():
     if verifyLogin():
@@ -123,6 +121,14 @@ def Cat():
         return jsonify(db_categorias)
     else:
         return render_template("views/auth/login.html")
-        
-
+    
+@app.route("/newBuy", methods=["GET", "POST"])
+def newBuy():
+    if verifyLogin():
+        if request.method=='POST':
+            cantidad = request.form['cantidad']
+            print(cantidad)
+        return redirect(url_for('index'))
+    else:
+        return render_template("views/auth/login.html")
 app.run(debug=True)
