@@ -82,12 +82,13 @@ CREATE TABLE IF NOT EXISTS `facturas_compras` (
   KEY `FK_facturas_compras_id_productos` (`id_codigo_producto`) USING BTREE,
   CONSTRAINT `FK_facturas_compras_id_productos` FOREIGN KEY (`id_codigo_producto`) REFERENCES `productos` (`id_producto`),
   CONSTRAINT `FK_facturas_compras_proveedores` FOREIGN KEY (`id_proveedor`) REFERENCES `proveedores` (`id_proveedores`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla software_contables.facturas_compras: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla software_contables.facturas_compras: ~1 rows (aproximadamente)
 /*!40000 ALTER TABLE `facturas_compras` DISABLE KEYS */;
 INSERT INTO `facturas_compras` (`id_factura_compra`, `fecha`, `id_codigo_producto`, `cantidad`, `val_unitario`, `descuento`, `id_proveedor`, `impuesto`) VALUES
-	(1, '2022-05-16 15:24:56', 4, 5, 8, 55, 1, 22);
+	(1, '2022-05-16 15:24:56', 4, 5, 8, 55, 1, 22),
+	(2, '2022-05-23 18:06:04', 5, 4, 555555, 16, 1, 5555);
 /*!40000 ALTER TABLE `facturas_compras` ENABLE KEYS */;
 
 -- Volcando estructura para tabla software_contables.login
@@ -116,15 +117,16 @@ CREATE TABLE IF NOT EXISTS `productos` (
   PRIMARY KEY (`id_producto`),
   KEY `FK_productos_id_categoría` (`id_categoria`),
   CONSTRAINT `FK_productos_id_categoría` FOREIGN KEY (`id_categoria`) REFERENCES `categorias` (`id_categoria`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla software_contables.productos: ~3 rows (aproximadamente)
+-- Volcando datos para la tabla software_contables.productos: ~4 rows (aproximadamente)
 /*!40000 ALTER TABLE `productos` DISABLE KEYS */;
 INSERT INTO `productos` (`id_producto`, `codigo_producto`, `nombre`, `precio_venta`, `id_categoria`, `existencia`, `precio_compra`) VALUES
 	(1, 1, 'Coca Cola', 15000, 1, 150, 15000),
-	(2, 2, 'Pepsi', 1, 1, 16, 15),
+	(2, 2, 'Pepsi', 500000, 1, 16, 15),
 	(3, 6, 'Caldo', 12422, 1, 5, -25),
-	(4, 7, 'Caldo', 12422, 1, 5, -25);
+	(4, 7, 'Jugo', 12422, 1, 5, -25),
+	(5, 8, 'Arroz', 6844547, 1, 4, 561094);
 /*!40000 ALTER TABLE `productos` ENABLE KEYS */;
 
 -- Volcando estructura para tabla software_contables.proveedores

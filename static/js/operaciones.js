@@ -1,17 +1,8 @@
 $( document ).ready(function() {
-    var id = document.getElementsByName("id")
-    var codigo = document.getElementsByName("codigo")
-    var nombre = document.getElementsByName("nombre")
-    var existencia = document.getElementsByName("existencia")
-    var valor = document.getElementsByName("valor")
-    var cantidad = document.getElementsByName("cantidad")
-    var subtotal = document.getElementsByName("subtotal")
-    var total = document.getElementsByName("total")
+    var total = document.getElementById("total")
+    var subtotal = document.getElementsByTagName("cantidad")
+    console.log(subtotal)
     total.value = leerCookie('subtotal');
-    $('#cantidad').change(function(){
-        var cantidad = document.getElementsByName("cantidad")
-        console.log(cantidad.value)
-    });
 });
 function leerCookie(nombre) {
     var lista = document.cookie.split(";");

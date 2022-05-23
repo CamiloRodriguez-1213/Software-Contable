@@ -8,11 +8,12 @@ def stockProducts(buscarValor):
         data = []
         
         for fila in datos:
+            print(fila)
             data.append({
                 'id_producto': fila[0],
                 'codigo_producto': fila[1],
                 'nombre': fila[2],
-                'precio_venta': fila[4],
+                'precio_venta': fila[3],
                 'existencia': fila[5],
             })
         

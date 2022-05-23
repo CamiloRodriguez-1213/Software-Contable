@@ -39,7 +39,6 @@ def postIndex():
                 
                 vart = json.loads(request.cookies.get('subtotal'))
                 print(vart)
-                
                 dt = vart + response[0]['precio_venta']
                 resp.set_cookie('subtotal',json.dumps(dt))
             return resp
