@@ -1,7 +1,12 @@
 $( document ).ready(function() {
     var total = document.getElementById("total")
-    var subtotal = document.getElementsByTagName("cantidad")
-    console.log(subtotal)
+    var valor = document.getElementsByName("valor")
+    var subtotal = document.getElementsByName("subtotal")
+    var cantidad = document.getElementsByName("cantidad")
+    for (let h = 0; h < valor.length; h++) {
+        var tot = parseInt(valor[h].value*cantidad[h].value)
+        subtotal[h].value = tot
+    }
     total.value = leerCookie('subtotal');
 });
 function leerCookie(nombre) {
