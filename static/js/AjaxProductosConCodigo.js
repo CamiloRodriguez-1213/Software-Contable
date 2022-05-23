@@ -10,7 +10,6 @@ $(document).ready(function(){
         precio_venta = document.getElementById('precio_venta')
         existencia = document.getElementById('existencia')
 
-        myModal = document.getElementById('staticBackdrop')
         $.ajax({
             url: '/producto-codigo',
             data: $('form').serialize(),
@@ -37,6 +36,7 @@ $(document).ready(function(){
                     })
                     precio_venta.value = response[3]
                     existencia.value = response[5]
+
                 }else{
                     id.value = ''
                     cod_product.value = ''
@@ -52,11 +52,6 @@ $(document).ready(function(){
                                 $("#categoria").append('<option value='+registro[0]+'>'+registro[1]+'</option>');
                             });      
                         },error: function(error){console.log(error);}
-                    }), 
-
-                    document.getElementById('mensaje_modal').innerHTML = 'El producto de codigo "'+codigo+'" no existe, verifique que el codigo sea correcto o ingrese los datos del producto para crearlo'
-                    myModal.addEventListener('show.bs.modal', () => {
-                        myInput.focus()
                     })
                 }
             },
