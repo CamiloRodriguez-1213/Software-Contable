@@ -39,7 +39,7 @@
             <div class="col col-3">
                 <div class="row">
                     <div class="col">
-                        <form action="{{url_for('postIndex')}}" method="POST">
+                        <form id="form_search">
                         <div class="input-group p-1">
                             <div class="input-group-text" style="width: 20%;">Código</div>
                                 <input type="search" class="form-control" name="search"/>
@@ -52,7 +52,6 @@
             <div class="col col-12">
                 <table id='empTable' class='table display dataTable bg-dark text-light' width='100%'>
                     <thead class="thead-dark">
-                        
                         <tr>
                             <th>ID</th>
                             <th>Código</th>
@@ -61,38 +60,38 @@
                             <th>P Unitario</th>
                             <th>Cantidad</th>
                             <th>Subtotal</th>
+                            <th>Opciones</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <form method="post" action="{{url_for('newBuy')}}">
+                    <tbody class="text-center">
+                        <form id="formFactura">
                             <div class="m-1" style="display: flex; justify-content: flex-end;">
-                                <input class="btn btn-outline-success" type="submit" value="Facturar"> 
+                                <input class="btn btn-outline-success" style="width: 150px;border-spacing: 150px;" type="submit" id="facturar" value="Facturar"> 
+                                <a class="btn btn-outline-danger" style="width: 150px;border-spacing: 150px;" href="{{url_for('delete_cookie')}}" id="borrar">Borrar</a>
                             </div>
+                            
                         {% if datos %}
-                        {% for dato in datos %}
-                        <tr>
-                            <td><input type="text" value="{{dato['id_producto']}}" disabled name="id"></td>
-                            <td><input type="text" value="{{dato['codigo_producto']}}" disabled name ="codigo"></td>
-                            <td><input type="text" value="{{dato['nombre']}}" disabled name="nombre"></td>
-                            <td><input type="text" value="{{dato['existencia']}}" disabled name ="existencia"></td>
-                            <td><input type="text" value="{{dato['precio_venta']}}" disabled id="valor" name="valor"></td>
-                            <td><input type="number" min="1" placeholder="1" value="1" id="cantidad" name="cantidad"></td>
-
-                            <td><input type="text" value="" disabled name="subtotal" id="subtotal"></td>
-                        </tr>
-                        {% endfor %}
-                        {% endif %}
-                        <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td><div class="input-group-text">Total</div></td>
-                                <td >
-                                    <input class="py-1" type="text" value="{{session['subtotal']}}" id="total"/>
+                            {% for dato in datos %}
+                            <tr>
+                                <td><input class="form_input" style="font-weight: bold;" readonly type="text" value="{{dato['id_producto']}}" id="id"  name="id"></td>
+                                <td><input class="form_input" readonly type="text" value="{{dato['codigo_producto']}}" id="codigo" name ="codigo"></td>
+                                <td><input class="form_input" readonly type="text" value="{{dato['nombre']}}" id="nombre" name="nombre"></td>
+                                <td><input class="form_input" readonly type="text" value="{{dato['existencia']}}" id="existencia" name ="existencia"></td>
+                                <td><input class="form_input" readonly type="text" value="{{dato['precio_venta']}}" id="valor" name="valor"></td>
+                                <td><input class="form_input" readonly type="number" min="1" placeholder="1" value="{{dato['zcantidad']}}" id="cantidad" name="cantidad"></td>
+                                <td><input class="form_input" readonly type="text" name="subtotal" id="subtotal"></td>
+                                <td>
+                                    <input  readonly type="button" value="">
                                 </td>
                             </tr>
+                            {% endfor %}
+                        {% endif %}
+                        <tr>
+                            <td colspan="5"></td>
+                            <td class="bg-dark"><span class="text-light"><strong>TOTAL</strong></span></td>
+                            <td><input style="border: 0; font-weight: bold;" type="text" class="form_input py-1" name="total" id="total" readonly></td>
+                            <td></td>
+                        </tr>
                         </form>
                     </tbody>
                     

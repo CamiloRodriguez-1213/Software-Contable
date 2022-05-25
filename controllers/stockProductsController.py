@@ -15,6 +15,7 @@ def stockProducts(buscarValor):
                 'nombre': fila[2],
                 'precio_venta': fila[3],
                 'existencia': fila[5],
+                'zcantidad': 1,
             })
         
         return data

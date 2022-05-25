@@ -1,12 +1,10 @@
-from flask import Flask, redirect,render_template,url_for,request,session,jsonify,make_response,json
+from flask import Flask, redirect,render_template,url_for,request,session,jsonify,json,make_response
 from controllers.verifyLoginController import verifyLogin
-from controllers import loginController,stockProductsController
 from flask import Flask, redirect,render_template,url_for,request,session,jsonify
 from controllers.verifyLoginController import verifyLogin
 from controllers.validations import ValidationsController
-from controllers import loginController
 from controllers.consult import GetCategoriasController, GetProveedoresController, GetProductosController
-from controllers import CreateProductController
+from controllers import loginController,stockProductsController,CreateProductController,loginController,setCookieProductsController
 
 app = Flask(__name__)
 app.secret_key = 'fjifjidfjied5df45df485h48@'
@@ -26,22 +24,9 @@ def postIndex():
     if verifyLogin():
         if request.method == 'POST':
             query = request.form['search']
-            datos = []
             response = stockProductsController.stockProducts(query)
-            resp = make_response(redirect(url_for('index')))
-            valnone = request.cookies.get('carrito')            
-            if valnone == None:
-                resp.set_cookie('carrito',json.dumps(response))
-                resp.set_cookie('subtotal',json.dumps(response[0]['precio_venta']))
-            else:
-                datos = json.loads(request.cookies.get('carrito'))
-                resp.set_cookie('carrito',json.dumps(datos+response))
-                
-                vart = json.loads(request.cookies.get('subtotal'))
-                print(vart)
-                dt = vart + response[0]['precio_venta']
-                resp.set_cookie('subtotal',json.dumps(dt))
-            return resp
+            setCookie = setCookieProductsController.setCookieProduct(response=response)
+        return setCookie
     else:
         return render_template("views/auth/login.html")
 @app.route("/login", methods=["GET", "POST"])
@@ -122,10 +107,36 @@ def Cat():
 @app.route("/newBuy", methods=["GET", "POST"])
 def newBuy():
     if verifyLogin():
-        if request.method=='POST':
-            cantidad = request.form['cantidad']
-            print(cantidad)
-        return redirect(url_for('index'))
+        id_producto = request.form.getlist('id')
+        codigo_producto = request.form.getlist('codigo')
+        nombre = request.form.getlist('nombre')
+        existencia = request.form.getlist('existencia')
+        precio_venta = request.form.getlist('valor')
+        cantidad = request.form.getlist('cantidad')
+        subtotal = request.form.getlist('subtotal')
+        total = request.form.getlist('total')
+        
+        data = []
+        for i in range(0,len(id_producto)):
+            data.append({
+                'id_producto': id_producto[i],
+                'codigo_producto': codigo_producto[i],
+                'nombre': nombre[i],
+                'precio_venta': precio_venta[i],
+                'cantidad': cantidad[i],
+                'subtotal': subtotal[i],
+            })
+        data.append({
+            'total': total[0],
+        })
+        return jsonify(data)
     else:
         return render_template("views/auth/login.html")
+
+@app.route("/delete_cookie")
+def delete_cookie():
+    resp = make_response(redirect(url_for('index')))
+    resp.delete_cookie("subtotal")
+    resp.delete_cookie("carrito")
+    return resp
 app.run(debug=True)

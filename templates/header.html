@@ -10,18 +10,6 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Inicio
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">Suport</a></li>
-                            <li><a class="dropdown-item" href="#">API</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">Developers</a></li>
-                        </ul>
-                    </li>
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/">Venta y Facturación</a>
                     </li>
@@ -32,7 +20,6 @@
                         <a class="nav-link active" aria-current="page" href="#">Contabilidad</a>
                     </li>
                 </ul>
-                
                 {% block signin %}
                 <form class="d-flex">
                     {% if 'token' in session%}
@@ -44,19 +31,15 @@
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     <li><a class="dropdown-item disabled" href="#">{{session['user']}} </a></li>
-                                    <li><a class="dropdown-item" href="#">Account</a></li>
                                     <li><a class="dropdown-item" href="#">Mi perfil</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item" href="{{url_for('logout')}}">Logout</a></li>
                                 </ul>
                             </li>
-                            
                         </ul>
                     {% endif %}
                 </form>
             {% endblock %}
-           
-                    
             </div>
         </div>
     </nav>
