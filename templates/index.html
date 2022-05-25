@@ -39,10 +39,10 @@
             <div class="col col-3">
                 <div class="row">
                     <div class="col">
-                        <form id="form_search">
+                        <form id="form_search" method="post">
                         <div class="input-group p-1">
                             <div class="input-group-text" style="width: 20%;">Código</div>
-                                <input type="search" class="form-control" name="search"/>
+                                <input type="search" class="form-control" id="search" name="search"/>
                                 <input type="submit" class="btn btn-outline-dark" id="query" name="query" value="Buscar">
                             </div>
                         </form>
@@ -65,8 +65,18 @@
                     </thead>
                     <tbody class="text-center">
                         <form id="formFactura">
+                            <p class="card-text mt-3 text-center">
+                                {% with messages = get_flashed_messages(category_filter=["error"]) %}
+                                {% if messages %}
+                                <ul class="alert alert-danger">
+                                    {% for message in messages %}
+                                    <li style="padding-left: 10px; list-style: none;"><small>{{message}}</small></li>
+                                    {% endfor %}
+                                </ul>
+                                {% endif %}
+                                {% endwith %}
                             <div class="m-1" style="display: flex; justify-content: flex-end;">
-                                <input class="btn btn-outline-success" style="width: 150px;border-spacing: 150px;" type="submit" id="facturar" value="Facturar"> 
+                                <input class="btn btn-outline-primary" style="width: 150px;border-spacing: 150px;" type="submit" id="facturar" value="Facturar"> 
                                 <a class="btn btn-outline-danger" style="width: 150px;border-spacing: 150px;" href="{{url_for('delete_cookie')}}" id="borrar">Borrar</a>
                             </div>
                             
@@ -81,7 +91,9 @@
                                 <td><input class="form_input" readonly type="number" min="1" placeholder="1" value="{{dato['zcantidad']}}" id="cantidad" name="cantidad"></td>
                                 <td><input class="form_input" readonly type="text" name="subtotal" id="subtotal"></td>
                                 <td>
-                                    <input  readonly type="button" value="">
+                                    <a class="button" href=""><i class='fa fa-trash' style='font-size:24px'></i></a>
+                                    
+                                    
                                 </td>
                             </tr>
                             {% endfor %}
@@ -103,8 +115,9 @@
 </div>
 {% endblock %}
 {% block scripts %}
-<script src="{{ url_for('static', filename='js/fechaActual.js') }}"></script>
+
 <script src="{{ url_for('static', filename='js/operaciones.js') }}"></script>
+<script src="{{ url_for('static', filename='js/fechaActual.js') }}"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" crossorigin="anonymous"></script>
 
 {% endblock %}

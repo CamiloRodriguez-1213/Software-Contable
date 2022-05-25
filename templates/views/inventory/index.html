@@ -11,14 +11,14 @@
                 INVENTARIO
                 <div class="float-end">
                     <a href="{{ url_for('CretePorduct') }}" class="btn btn-primary" style="text-decoration: none;">
-                        Nuevo
+                        Agregar producto
                         <img src="{{ url_for('static', filename='images/update-inventory.png') }}" alt="Update_inventory" height="20px">
                     </a>
                 </div>
             </div>
         </div>
         <div class="col-12 mb-3">
-            <table class="table">
+            <table class="table display dataTable">
                 <thead class="table-dark">
                     <tr class="text-center">
                         <th scope="col">Codigo</th>
@@ -37,7 +37,7 @@
                             <td>{{ producto[2] }}</td>
                             <td>{{ producto[3] }}</td>
                             <td>{{ producto[4] }}</td>
-                            <td><a class="px-1" href="">Eliminar</a></td>
+                            <td><a class="button" href=""><i class='fa fa-trash' style='font-size:24px'></i></a></td>
                         </tr>
                     {% endfor %}
                 </tbody>

@@ -1,4 +1,4 @@
-from flask import Flask, redirect,render_template,url_for,request,session,jsonify,json,make_response
+from flask import Flask, flash, redirect,render_template,url_for,request,session,jsonify,json,make_response
 from controllers.verifyLoginController import verifyLogin
 from flask import Flask, redirect,render_template,url_for,request,session,jsonify
 from controllers.verifyLoginController import verifyLogin
@@ -25,10 +25,15 @@ def postIndex():
         if request.method == 'POST':
             query = request.form['search']
             response = stockProductsController.stockProducts(query)
-            setCookie = setCookieProductsController.setCookieProduct(response=response)
-        return setCookie
+            if response:
+                setCookie = setCookieProductsController.setCookieProduct(response=response)
+                return setCookie
+            else:
+                flash('El producto no está registrado','error')
+                return redirect(url_for('index'))
     else:
         return render_template("views/auth/login.html")
+    
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if verifyLogin():

@@ -17,5 +17,4 @@ def setCookieProduct(response):
                 return resp
         if envio == True:
             resp.set_cookie('carrito',json.dumps(datos+response))
-        return resp
-        
+    return resp
