@@ -15,7 +15,7 @@ def GetProductWithCodigo(codigo):
         
 def GetInventario():
     try:
-        cursor.execute("SELECT productos.codigo_producto, productos.nombre, productos.existencia , categorias.nombre, productos.precio_venta FROM productos, categorias WHERE (productos.id_categoria = categorias.id_categoria) ")
+        cursor.execute("SELECT productos.codigo_producto, productos.nombre, productos.existencia , categorias.nombre, productos.precio_venta, productos.id_producto FROM productos, categorias WHERE (productos.id_categoria = categorias.id_categoria) ")
         myresult = cursor.fetchall()
         return myresult
     except:

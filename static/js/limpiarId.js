@@ -5,7 +5,9 @@ document.getElementById('codigo').addEventListener('input', function(){
     input = document.getElementById('input_categoria')
     precio_venta = document.getElementById('precio_venta')
     existencia = document.getElementById('existencia')
+    search_alert = document.getElementById('search_alert')
 
+    search_alert.innerHTML = ''
     id.value = ''
     cod_product.value = ''
     nombre.value = ''
@@ -30,7 +32,9 @@ document.getElementById('cod_product').addEventListener('input', function(){
     input = document.getElementById('input_categoria')
     precio_venta = document.getElementById('precio_venta')
     existencia = document.getElementById('existencia')
+    search_alert = document.getElementById('search_alert')
 
+    search_alert.innerHTML = ''
     id.value = ''
     codigo.value = ''
     nombre.value = ''

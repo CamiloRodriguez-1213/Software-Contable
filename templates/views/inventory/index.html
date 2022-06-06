@@ -10,7 +10,7 @@
             <div class="h4">
                 INVENTARIO
                 <div class="float-end">
-                    <a href="{{ url_for('CretePorduct') }}" class="btn btn-primary" style="text-decoration: none;">
+                    <a href="{{ url_for('CreatePorduct') }}" class="btn btn-primary" style="text-decoration: none;">
                         Agregar producto
                         <img src="{{ url_for('static', filename='images/update-inventory.png') }}" alt="Update_inventory" height="20px">
                     </a>
@@ -37,7 +37,7 @@
                             <td>{{ producto[2] }}</td>
                             <td>{{ producto[3] }}</td>
                             <td>{{ producto[4] }}</td>
-                            <td><a class="button" href=""><i class='fa fa-trash' style='font-size:24px'></i></a></td>
+                            <td><a class="button" href="/delete/product/{{ producto[5] }}"><i class='fa fa-trash' style='font-size:24px'></i></a></td>
                         </tr>
                     {% endfor %}
                 </tbody>

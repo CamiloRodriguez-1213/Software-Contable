@@ -10,22 +10,24 @@
             <div class="h4">ACTUALIZAR INVENTARIO</div>
         </div>
         <div class="col-12 mb-3">
-            <form method="POST" id="get_product">
+            <form method="POST" id="form_get_product">
                 <div class="row mb-2">
                     <div class="col-9 col-sm-10 col-md-11">
                         <input type="number" placeholder="Buscar producto por codigo" class="form-control" id="codigo" name="codigo">
                     </div>
                     <div class="col-3 col-sm-2 col-md-1 text-start">
                         <!-- data-bs-toggle="modal" data-bs-target="#staticBackdrop" -->
-                        <button class="btn btn-primary" type="submit" id="buscar_codigo">
+                        <button type="submit" class="btn btn-primary">
                             Buscar
                         </button>
                     </div>
+                    <div class="col-12 mt-2" id="search_alert"></div>
                 </div>
             </form>
-            <form action="{{ url_for('CretePorduct') }}" method="POST" class="row g-3">
+
+            <form action="{{ url_for('CreatePorduct') }}" method="POST" class="g-3">
                 <div class="row">
-                    <div class="col-12 col-md-6 mt-4">
+                    <div class="col-12 col-md-6 mt-1">
                         <div class="row">
                             <div class="h4 text-center">INFORMACION DEL PRODUCTO</div>
                             <input type="hidden" name="id" id="id" value="{{ id }}">
@@ -68,7 +70,7 @@
 
                         </div>
                     </div>
-                    <div class="col-12 col-md-6 mt-4">
+                    <div class="col-12 col-md-6 mt-1">
                         <div class="row">
                             <div class="h4 text-center">INFORMACION DEL PROVEEDOR</div>
 
@@ -110,7 +112,7 @@
                     </div>
                 </div>
 
-                <div class="d-grid gap-2 col-6 mx-auto mb-3">
+                <div class="d-grid gap-2 col-6 mx-auto mb-3 mt-3">
                     <button type="submit" class="btn btn-primary">Guardar</button>
                 </div>
 
@@ -144,8 +146,8 @@
 
 {% endblock %}
 
-{% block script %}
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+{% block scripts %}
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="{{ url_for('static', filename='js/AjaxProductosConCodigo.js') }}" defer></script>
     <script src="{{ url_for('static', filename='js/SoloNumeros.js') }}" defer></script>
     <script src="{{ url_for('static', filename='js/limpiarId.js') }}" defer></script>

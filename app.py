@@ -1,10 +1,9 @@
 from flask import Flask, flash, redirect,render_template,url_for,request,session,jsonify,json,make_response
 from controllers.verifyLoginController import verifyLogin
-from flask import Flask, redirect,render_template,url_for,request,session,jsonify
-from controllers.verifyLoginController import verifyLogin
 from controllers.validations import ValidationsController
 from controllers.consult import GetCategoriasController, GetProveedoresController, GetProductosController
 from controllers import loginController,stockProductsController,CreateProductController,loginController,setCookieProductsController
+from models.DeleteProductModel import deleteProduct
 
 app = Flask(__name__)
 app.secret_key = 'fjifjidfjied5df45df485h48@'
@@ -63,13 +62,12 @@ def inventory():
         return render_template("views/auth/login.html")
     
 @app.route("/crear-producto", methods=["GET", "POST"])
-def CretePorduct():
+def CreatePorduct():
     if verifyLogin():
         if session.get('rol') == 'administrador':
             db_categorias = GetCategoriasController.ControllerGetCategorias()
             db_proveedores = GetProveedoresController.ControllerGetProveedores()
             if request.method=='POST':
-                session['db_categorias'] = db_categorias
                 id = request.form['id']
                 codigo = ValidationsController.number(request.form['cod_product'])
                 precio_venta = ValidationsController.number(request.form['precio_venta'])
@@ -80,13 +78,11 @@ def CretePorduct():
                 descuento = ValidationsController.number(request.form['descuento'])
                 impuesto = ValidationsController.number(request.form['impuesto'])
                 nombre = request.form['nombre']
-                categoria = 0
-                if id == '':
-                    categoria = ValidationsController.number(request.form['categoria'])
+                categoria = ValidationsController.number(request.form['categoria'])
                 if not CreateProductController.ValidationsCreate(id, codigo, nombre, categoria, precio_venta, existencia, proveedor, cantidad_compra, valor_unitario, descuento, impuesto):
                     return render_template("views/inventory/products/create.html", db_categorias = db_categorias, db_proveedores = db_proveedores, id = id, cod_product = codigo, nombre = nombre, categoria=categoria, precio_venta = precio_venta, existencia = existencia, proveedor = proveedor, cantidad_compra = cantidad_compra, valor_unitario = valor_unitario, descuento = descuento, impuesto = impuesto)    
-                return redirect(url_for('CretePorduct'))
-            return render_template("views/inventory/products/create.html", db_categorias = db_categorias, db_proveedores = db_proveedores, id='')
+                return redirect(url_for('CreatePorduct'))
+            return render_template("views/inventory/products/create.html", db_categorias = db_categorias, db_proveedores = db_proveedores)
         else:
             return render_template("index.html")
     else:
@@ -135,6 +131,17 @@ def newBuy():
             'total': total[0],
         })
         return jsonify(data)
+    else:
+        return render_template("views/auth/login.html")
+    
+@app.route("/delete/product/<id>", methods=["GET"])
+def delete_product(id):
+    if verifyLogin():
+        if session.get('rol') == 'administrador':
+            deleteProduct(id=id)
+            return redirect(url_for('inventory'))
+        else:
+            return render_template("index.html")
     else:
         return render_template("views/auth/login.html")
 

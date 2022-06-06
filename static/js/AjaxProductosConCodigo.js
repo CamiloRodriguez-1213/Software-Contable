@@ -1,5 +1,10 @@
 //document.getElementById('existencia').disabled = 'true'
 $(document).ready(function(){
+    $('#form_get_product').submit(function(e){
+        e.preventDefault();
+        ajax_product();
+    })
+    
     function ajax_product(){
         codigo = document.getElementById('codigo').value
         
@@ -10,12 +15,19 @@ $(document).ready(function(){
         precio_venta = document.getElementById('precio_venta')
         existencia = document.getElementById('existencia')
 
+        search_alert = document.getElementById('search_alert')
+
         $.ajax({
             url: '/producto-codigo',
             data: $('form').serialize(),
             type: 'POST',
             success: function(response){
                 if(response != null){
+                    search_alert.innerHTML = '<div class="alert alert-success alert-dismissible fade show" role="alert">'+
+                                                'El producto <strong>'+codigo+'</strong> encontrado, ingrese los datos del proveedor para actualizarlo.'+
+                                                '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>'+
+                                            '</div>'
+
                     id.value = response[0]
                     cod_product.value = response[1]
                     nombre.value = response[2]
@@ -38,6 +50,11 @@ $(document).ready(function(){
                     existencia.value = response[5]
 
                 }else{
+                    search_alert.innerHTML = '<div class="alert alert-danger alert-dismissible fade show" role="alert">'+
+                                                'El producto de codigo <strong>'+codigo+'</strong> no existe, ingrese los datos del producto y proveedor para registrarlo.'+
+                                                '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>'+
+                                            '</div>'
+
                     id.value = ''
                     cod_product.value = ''
                     nombre.value = ''
@@ -60,9 +77,4 @@ $(document).ready(function(){
             }
         });
     }
-
-    $('#get_product').submit(function(e){
-        e.preventDefault();
-        ajax_product();
-    })
 });
