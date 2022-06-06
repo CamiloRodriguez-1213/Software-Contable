@@ -22,12 +22,8 @@ $(document).ready(function(){
             data: $('form').serialize(),
             type: 'POST',
             success: function(response){
+                console.log(response)
                 if(response != null){
-                    search_alert.innerHTML = '<div class="alert alert-success alert-dismissible fade show" role="alert">'+
-                                                'El producto <strong>'+codigo+'</strong> encontrado, ingrese los datos del proveedor para actualizarlo.'+
-                                                '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>'+
-                                            '</div>'
-
                     id.value = response[0]
                     cod_product.value = response[1]
                     nombre.value = response[2]

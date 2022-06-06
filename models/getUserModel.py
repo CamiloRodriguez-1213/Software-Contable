@@ -6,4 +6,11 @@ def User(username):
         myresult = cursor.fetchone()
         return myresult
     except:
-        print("Error occured in getUser")
+        print("Error occured in getUserModel")
+def userId(idUser):
+    try:
+        cursor.execute("SELECT * FROM clientes WHERE identificacion = '"+idUser+"'")
+        myresult = cursor.fetchone()
+        return myresult
+    except:
+        print("Error occured in getUserModel")

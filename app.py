@@ -1,9 +1,9 @@
 from flask import Flask, flash, redirect,render_template,url_for,request,session,jsonify,json,make_response
 from controllers.verifyLoginController import verifyLogin
+from models.DeleteProductModel import deleteProduct
 from controllers.validations import ValidationsController
 from controllers.consult import GetCategoriasController, GetProveedoresController, GetProductosController
-from controllers import loginController,stockProductsController,CreateProductController,loginController,setCookieProductsController
-from models.DeleteProductModel import deleteProduct
+from controllers import loginController,stockProductsController,CreateProductController,loginController,setCookieProductsController,cookiesProductController,newBuyController,userIdController
 
 app = Flask(__name__)
 app.secret_key = 'fjifjidfjied5df45df485h48@'
@@ -13,7 +13,8 @@ def index():
         try:
             datos = []
             datos = json.loads(request.cookies.get('carrito'))
-            return render_template("index.html",datos=datos)
+            id_venta = 1
+            return render_template("index.html",datos=datos,id_venta=id_venta)
         except:
             return render_template("index.html")
     else:
@@ -55,6 +56,7 @@ def inventory():
     if verifyLogin():
         if session.get('rol') == 'administrador':
             productos = GetProductosController.ControllerGetProducts()
+            print(productos)
             return render_template("views/inventory/index.html", productos=productos)
         else:
             return render_template("index.html")
@@ -116,20 +118,8 @@ def newBuy():
         cantidad = request.form.getlist('cantidad')
         subtotal = request.form.getlist('subtotal')
         total = request.form.getlist('total')
+        data = newBuyController.newBuy(id_producto,codigo_producto,nombre,existencia,precio_venta,cantidad,subtotal,total)
         
-        data = []
-        for i in range(0,len(id_producto)):
-            data.append({
-                'id_producto': id_producto[i],
-                'codigo_producto': codigo_producto[i],
-                'nombre': nombre[i],
-                'precio_venta': precio_venta[i],
-                'cantidad': cantidad[i],
-                'subtotal': subtotal[i],
-            })
-        data.append({
-            'total': total[0],
-        })
         return jsonify(data)
     else:
         return render_template("views/auth/login.html")
@@ -145,10 +135,23 @@ def delete_product(id):
     else:
         return render_template("views/auth/login.html")
 
+@app.route("/deleteProductBuy/<id>")
+def deleteProductBuy(id):
+    if verifyLogin():
+        deleteCookieProduct = cookiesProductController.cookiesProduct(id)
+        return deleteCookieProduct
+    else:
+        return render_template("views/auth/login.html")
 @app.route("/delete_cookie")
 def delete_cookie():
     resp = make_response(redirect(url_for('index')))
     resp.delete_cookie("subtotal")
     resp.delete_cookie("carrito")
     return resp
+@app.route("/userQuery",methods=["GET", "POST"])
+def userQuery():
+    idUser = request.form['value']
+    
+    user = userIdController.getUser(idUser)
+    return jsonify(user)
 app.run(debug=True)
