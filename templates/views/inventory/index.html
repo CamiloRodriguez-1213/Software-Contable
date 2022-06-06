@@ -6,7 +6,7 @@
 {% block contenido %}
 <div class="container mt-4" >
     <div class="row">
-        <div class="col-12 text-center mb-1">
+        <div class="col-12 text-center mb-3">
             <div class="h4">
                 INVENTARIO
                 <div class="float-end">
@@ -17,33 +17,28 @@
                 </div>
             </div>
         </div>
+        
         <div class="col-12 mb-3">
-            <table class="table display dataTable">
+            <table id="table_product" class="table display dataTable">
                 <thead class="table-dark">
                     <tr class="text-center">
-                        <th scope="col">Codigo</th>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Disponible</th>
-                        <th scope="col">Categoria</th>
-                        <th scope="col">Precio venta</th>
-                        <th scope="col">Opciones</th>
+                        <th scope="col">codigo</th>
+                        <th scope="col">nombre</th>
+                        <th scope="col">existencia</th>
+                        <th scope="col">categoria</th>
+                        <th scope="col">precio</th>
                     </tr>
                 </thead>
-                <tbody>
-                    {% for producto in productos %}
-                        <tr class="text-center">
-                            <th scope="row">{{ producto[0] }}</th>
-                            <td>{{ producto[1] }}</td>
-                            <td>{{ producto[2] }}</td>
-                            <td>{{ producto[3] }}</td>
-                            <td>{{ producto[4] }}</td>
-                            <td><a class="button" href="/delete/product/{{ producto[5] }}"><i class='fa fa-trash' style='font-size:24px'></i></a></td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-              </table>
+                
+            </table>
         </div>
     </div>
 </div>
 
+{% endblock %}
+
+{% block scripts %}
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" charset="uft8" src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.js" defer></script>
+    <script src="{{ url_for('static', filename='js/table_inventory.js') }}" defer></script>
 {% endblock %}

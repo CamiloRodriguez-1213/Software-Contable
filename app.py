@@ -55,9 +55,30 @@ def logout():
 def inventory():
     if verifyLogin():
         if session.get('rol') == 'administrador':
+            db_categorias = GetCategoriasController.ControllerGetCategorias()
+            #productos = GetProductosController.ControllerGetProducts()
+
+            return render_template("views/inventory/index.html", db_categorias=db_categorias)
+        else:
+            return render_template("index.html")
+    else:
+        return render_template("views/auth/login.html")
+    
+@app.route("/tabla", methods=['POST', 'GET'])
+def tabla():
+    if verifyLogin():
+        if session.get('rol') == 'administrador':
             productos = GetProductosController.ControllerGetProducts()
-            print(productos)
-            return render_template("views/inventory/index.html", productos=productos)
+            new_lista = []
+            for producto in productos:
+                dic={}
+                dic['codigo'] = producto[0]
+                dic['nombre'] = producto[1]
+                dic['existencia'] = producto[2]
+                dic['categoria'] = producto[3]
+                dic['precio'] = producto[4]
+                new_lista.append(dic)
+            return jsonify({'datos':[new_lista]})
         else:
             return render_template("index.html")
     else:
@@ -154,4 +175,7 @@ def userQuery():
     
     user = userIdController.getUser(idUser)
     return jsonify(user)
+
+
+
 app.run(debug=True)
