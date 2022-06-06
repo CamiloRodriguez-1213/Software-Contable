@@ -9,7 +9,7 @@
                     <div class="col">
                         <div class="input-group p-1">
                           <div class="input-group-text" style="width: 55%;">ID venta</div>
-                          <input type="text" class="form-control" disabled>
+                          <input type="text" value="{{id_venta}}" class="form-control" disabled>
                         </div>
                     </div>
                 </div>
@@ -64,19 +64,58 @@
                         </tr>
                     </thead>
                     <tbody class="text-center">
+                        <p class="card-text mt-3 text-center">
+                            {% with messages = get_flashed_messages(category_filter=["error"]) %}
+                            {% if messages %}
+                            <ul class="alert alert-danger">
+                                {% for message in messages %}
+                                <li style="padding-left: 10px; list-style: none;"><small>{{message}}</small></li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                            {% endwith %}
+                        </p>
                         <form id="formFactura">
-                            <p class="card-text mt-3 text-center">
-                                {% with messages = get_flashed_messages(category_filter=["error"]) %}
-                                {% if messages %}
-                                <ul class="alert alert-danger">
-                                    {% for message in messages %}
-                                    <li style="padding-left: 10px; list-style: none;"><small>{{message}}</small></li>
-                                    {% endfor %}
-                                </ul>
-                                {% endif %}
-                                {% endwith %}
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Cliente Factura</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col">
+                                                <label for="">Identificación</label>
+                                                <input type="hidden" id="id_us" name="id_us" class="form-control" required>
+                                                <input type="text" id="id_user" name="id_user" class="form-control" required>
+                                            </div>
+                                            <div class="col">
+                                                <label for="">Nombres</label>
+                                                <input type="text" id="nombre_user" class="form-control" required>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <label for="">Celular</label>
+                                                <input type="text" id="cel_user" class="form-control" required>
+                                            </div>
+                                            <div class="col">
+                                                <label for="">Correo</label>
+                                                <input type="text" id="email_user" class="form-control" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                    <input class="btn btn-outline-secondary" style="width: 150px;border-spacing: 150px;" type="button" value="Close" data-bs-dismiss="modal"> 
+                                    <input class="btn btn-outline-primary" style="width: 150px;border-spacing: 150px;" type="submit" id="facturar" value="Facturar"> 
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
                             <div class="m-1" style="display: flex; justify-content: flex-end;">
-                                <input class="btn btn-outline-primary" style="width: 150px;border-spacing: 150px;" type="submit" id="facturar" value="Facturar"> 
+                                <input class="btn btn-outline-primary" style="width: 150px;border-spacing: 150px;" data-bs-toggle="modal" data-bs-target="#exampleModal" type="button" value="Facturar"> 
+                                
                                 <a class="btn btn-outline-danger" style="width: 150px;border-spacing: 150px;" href="{{url_for('delete_cookie')}}" id="borrar">Borrar</a>
                             </div>
                             
@@ -91,9 +130,7 @@
                                 <td><input class="form_input" readonly type="number" min="1" placeholder="1" value="{{dato['zcantidad']}}" id="cantidad" name="cantidad"></td>
                                 <td><input class="form_input" readonly type="text" name="subtotal" id="subtotal"></td>
                                 <td>
-                                    <a class="button" href=""><i class='fa fa-trash' style='font-size:24px'></i></a>
-                                    
-                                    
+                                    <a class="button" href="{{url_for('deleteProductBuy',id=dato['id_producto'])}}"><i class='fa fa-trash' style='font-size:24px'></i></a>
                                 </td>
                             </tr>
                             {% endfor %}
